@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern User Form</title>
+    <style>
+        /* CSS Variables for easy color management */
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --bg: #F3F4F6;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --border: #D1D5DB;
+            --focus-ring: rgba(79, 70, 229, 0.25);
+        }
+
+        body {
+            /* Modern system font stack for clean typography */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-main);
+        }
+
+        .form-container {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px; /* Softer, modern card shape */
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-main);
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 0;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 14px;
+        }
+
+        /* Modernized Input Shape */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            height: 48px; /* Taller for better touch targets */
+            padding: 0 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px; /* Softer input shape */
+            box-sizing: border-box;
+            font-size: 16px; /* Prevents zoom on iOS */
+            color: var(--text-main);
+            background-color: #FAFAFA;
+            transition: all 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #9CA3AF;
+        }
+
+        /* User-friendly focus state */
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 4px var(--focus-ring); /* Soft glowing ring */
+        }
+
+        button {
+            width: 100%;
+            height: 50px;
+            margin-top: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px; /* Matches input shape */
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button:active {
+            transform: scale(0.98); /* Subtle click feedback */
+        }
+
+        #result-message {
+            margin-top: 24px;
+            text-align: center;
+            color: #059669; /* Success green */
+            font-weight: 600;
+            font-size: 15px;
+            min-height: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #result-message.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Profile Details</h2>
+        <p class="subtitle">Please fill in the information below</p>
+        
+        <form id="userForm">
+            <!-- Field 1 -->
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="e.g. johndoe" required>
+            </div>
+
+            <!-- Field 2 -->
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="e.g. john@example.com" required>
+            </div>
+
+            <!-- Field 3 -->
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="e.g. +1 555-0198">
+            </div>
+
+            <!-- Field 4 -->
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" placeholder="e.g. 123 Main St, City">
+            </div>
+
+            <!-- Field 5 -->
+            <div class="form-group">
+                <label for="notes">Additional Notes</label>
+                <input type="text" id="notes" name="notes" placeholder="Any other details...">
+            </div>
+
+            <button type="submit">Submit Information</button>
+        </form>
+        
+        <p id="result-message"></p>
+    </div>
+
+    <script>
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            
+            // Gather data from all 5 fields
+            const formData = {
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                notes: document.getElementById('notes').value
+            };
+
+            // Log the data to the browser console (useful for testing)
+            console.log("Form Submitted:", formData);
+            
+            // Show a user-friendly success message
+            const messageElement = document.getElementById('result-message');
+            messageElement.textContent = 'Success! Your information has been recorded.';
+            messageElement.classList.add('show');
+            
+            // Optional: Clear the form after submission
+            this.reset();
+
+            // Hide the message after 4 seconds
+            setTimeout(() => {
+                messageElement.classList.remove('show');
+            }, 4000);
+        });
+    </script>
+
+</body>
+</html>
